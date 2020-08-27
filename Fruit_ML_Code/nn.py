@@ -1,9 +1,10 @@
 import tensorflow as tf
 import keras_preprocessing
 import keras
-from keras.optimizers import Adamax
+import numpy as np
+from keras.optimizers import Adamax, Adam
 from keras.models import Sequential
-from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
+from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Activation, Dropout
 from keras.models import load_model
 
 #Currently Created A Template Of How The NN.py Will Be Structured With The Use Of Examples From Keras Documentation
@@ -28,14 +29,26 @@ def creating_model(train_data):
     model = tf.keras.Sequential()
     
     model.add(keras.layers.experimental.preprocessing.Rescaling(1./255)),
-    model.add(Conv2D(32, 3, activation='relu')),
-    model.add(MaxPooling2D()),
-    model.add(Conv2D(32, 3, activation='relu')),
-    model.add(MaxPooling2D()),
-    model.add(Conv2D(32, 3, activation='relu')),
-    model.add(MaxPooling2D()),
-    model.add(Flatten()),
-    model.add(Dense(128, activation='relu')),
+    model.add(Conv2D(32, (3, 3), input_shape=(3, 160, 160)))
+    model.add(Activation('relu'))
+    model.add(Dropout(0.5))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+
+    model.add(Conv2D(64, (3, 3)))
+    model.add(Activation('relu'))
+    model.add(Dropout(0.5))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+
+    model.add(Conv2D(128, (3, 3)))
+    model.add(Activation('relu'))
+    model.add(Dropout(0.5))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+
+    model.add(Flatten())  
+    model.add(Dense(128))
+    model.add(Activation('relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(num_classes, activation='relu'))
     model.add(Dense(num_classes, activation='softmax'))
     
 
@@ -47,12 +60,12 @@ def creating_model(train_data):
 
 #Saves Model For Later Use
 def save_model(model):
-    model.save("model.h5")
+    model.save("model_3.h5")
     print("Model Saved")
 
 #Loads Model That Was Previously Saved
 def load_model_():
-    model = load_model('model.h5')
+    model = load_model('model_2.h5')
     print("Model Loaded")
 
     return model
@@ -63,7 +76,7 @@ def run_model(train_data,val_data):
     model=creating_model(train_data)
     
     bs = 25
-    hist = model.fit(train_data, epochs=1, batch_size=bs, validation_data=(val_data))
+    hist = model.fit(train_data, epochs=bs, batch_size=bs, validation_data=(val_data))
 
     save_model(model)
 
@@ -71,6 +84,10 @@ def run_model(train_data,val_data):
     return hist
 
 #This Will Make Predictions Based On Image Given
-def nn_prediction(model):
-    print("Prediction")
+def nn_prediction(model,pred,class_names):
+    predictions = model.predict(pred)
+    # Generate arg maxes for predictions
+    classes = np.argmax(predictions, axis = -1)
+    print("The Image Prediction Is: "+class_names[int(classes)])
+    print("Prediction Complete")
 print("neural networks code")
