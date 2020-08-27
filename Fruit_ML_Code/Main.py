@@ -27,20 +27,23 @@ def plot_data(hist):
 
     plt.show()
 
+def load_single_image():
+    #class_names= load_data.load_class_names()
+    #samp_path='ADD SINGLE IMAGE PATH HERE'
+    #sample= load_data.load_single_img(samp_path)
+    return "Finish Loading Image"
+
+def run_prediction():
+    #pred =nn.load_model_()
+    #nn.nn_prediction(pred,sample,class_names)
+    return "Prediciton Complete"
+
+def run_test():
+    #Uncomment Following Lines For Training Purposes
+    #train_data,val_data,test_data= load_data.load_datasets()
+    #hist = nn.run_model(train_data,val_data)
+
+    #plot_data(hist)
+    return "Training Complete"
+
 print("Main Code")
-
-#Uncomment Following Lines For Training Purposes
-train_data,val_data,test_data= load_data.load_datasets()
-hist = nn.run_model(train_data,val_data)
-
-plot_data(hist)
-
-#Uncomment Following Lines For Testing Purposes
-#class_names= load_data.load_class_names()
-#samp_path='ADD SINGLE IMAGE PATH HERE'
-#sample= load_data.load_single_img(samp_path)
-
-#hist =nn.load_model_()
-#nn.nn_prediction(hist,sample,class_names)
-
-print("Done")
