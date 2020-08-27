@@ -1,8 +1,9 @@
 import load_data
 import matplotlib.pyplot as plt
 import nn
+from keras.preprocessing.image import load_img
 #Main Python File Where It Uses All The Files Created To Run Code
-#Planned Algorithms NN, Decision Tree,...
+#Planned Algorithms CNN, Decision Tree,...
 
 #Plots Accuracies For Model Accuracy And Model Loss
 def plot_data(hist):
@@ -27,12 +28,19 @@ def plot_data(hist):
     plt.show()
 
 print("Main Code")
-train_data,val_data,test_data= load_data.load_datasets()
 
+#Uncomment Following Lines For Training Purposes
+train_data,val_data,test_data= load_data.load_datasets()
 hist = nn.run_model(train_data,val_data)
 
 plot_data(hist)
-#print(train_data.class_names)
-#print(val_data.class_names)
+
+#Uncomment Following Lines For Testing Purposes
+#class_names= load_data.load_class_names()
+#samp_path='ADD SINGLE IMAGE PATH HERE'
+#sample= load_data.load_single_img(samp_path)
+
+#hist =nn.load_model_()
+#nn.nn_prediction(hist,sample,class_names)
 
 print("Done")
